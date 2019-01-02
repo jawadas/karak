@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+        <style>
+                div.a {
+                  text-indent: 150px;
+                }
+                
+                div.b {
+                  text-indent: -2em;
+                }
+                
+                div.c {
+                  text-indent: 30%;
+                }
+                </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>اضافة فاتورة</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/theme.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body role="document">
+        
+        <form class="form-horizontal"  method="post" action="/submit">
+                <fieldset>
+                
+                <!-- Form Name -->
+                <legend>
+                        <h1>اضافة فاتورة جديدة</h1> <br/>
+                </legend>
+                
+                <!-- Text input-->
+                <div class="form-group">
+                  <label class="col-md-1 control-label" for="textinput">تاريخ الفاتورة</label>  
+                  <div class="col-md-2">
+                  <input id="textinput" name="date" type="text" class="form-control input-md" required="">
+                  </div>
+                </div>
+                
+                <!-- Select Basic -->
+                <div class="form-group">
+                  <label class="col-md-1 control-label" for="selectbasic">نوع الفاتورة</label>
+                  <div class="col-md-2">
+                    <select id="selectbasic" name="type" class="form-control">
+                      <option value="لحوم">لحوم</option>
+                      <option value="خضار">خضار</option>
+                      <option value="ابوزيد">ابوزيد</option>
+                      <option value="المزرعة">المزرعة</option>
+                      <option value="خبز السلطان">خبز السلطان</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <!-- Text input-->
+                <div class="form-group">
+                  <label class="col-md-1 control-label" for="textinput">سعر الفاتورة</label>  
+                  <div class="col-md-2">
+                  <input id="textinput" name="price" type="text"  class="form-control input-md" required="">
+                  </div>
+                </div> <br/>
+                
+                <!-- Multiple Radios -->
+                <div class="form-group">
+                  <label class="col-md-1 control-label" for="payment_type">طريقة الدفع</label>
+                  <div class="col-md-2">
+                  <div class="radio">
+                    <label for="radios-0">
+                      <input type="radio" name="payment_type" id="radios-0" value="cash" >
+                      كاش من المحل
+                    </label>
+                    </div><br/>
+                  <div class="radio">
+                    <label for="radios-1">
+                      <input type="radio" name="payment_type" id="radios-1" value="owner">
+                      علي/حسين
+                    </label>
+                    </div><br/>
+                  <div class="radio">
+                    <label for="radios-2">
+                      <input type="radio" name="payment_type" id="radios-2" value="credit">
+                      اجل
+                    </label>
+                    </div>
+                  </div>
+                </div><br/>
+                
+                <!-- File Button --> 
+    
+                <div class="form-group">
+                  <label class="col-md-1 control-label" for="filebutton">  صورة الفاتورة</label>
+                  <div class="col-md-2">
+                    <input id="filebutton" name="attachment" class="input-file" type="file">
+                  </div>
+                </div>
+              </br>
+       
+            </br>
+                    <div class="a">
+                    <button type="submit" class="btn btn-lg btn-primary" id="myButton" >اضافة الفاتورة</button>
+                </fieldset>
+            
+
+
+    </div>
+  </form>
+  </body>
+</html>
+    
