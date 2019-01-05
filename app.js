@@ -3,6 +3,7 @@ var mysql      = require('mysql');
 var express = require("express");
 var app     = express();
 var path    = require("path");
+var moment = require('moment');
 var bodyParser = require('body-parser');
 var dateFormat = require('dateFormat');
 app.use('/img',express.static(path.join(__dirname, 'images')));
@@ -43,24 +44,39 @@ app.use(bodyParser.urlencoded({
 app.get('/dailyReceipts',function(req,res){
 var sql = "select date,type,price from shopdb.receipts";
 var receiptlist = [];
+
   connection.query(sql, function (err, rows, fields) {
+   
     if (err) throw err;
+    var sum_price = 0;
     for(i=0;i<rows.length;i++)
     {
+      var javaDate = [];
+      var new_date = [];
+      javaDate[i] = new Date(rows[i].date);
+      new_date[i] = (javaDate[i].getFullYear() + '/' + (javaDate[i].getMonth() + 1) + '/' +javaDate[i].getDate() );
+      sum_price = sum_price + rows[i].price
     var receipt = {
-      'date':rows[i].date,
+      'date':new_date[i],
       'type':rows[i].type,
       'price':rows[i].price
     }
     console.log(receipt);
     receiptlist.push(receipt);
+    
+   
+    ;
+   
+
   }
+ 
+
 
     // Add object into array
    
-
     res.render('displayReceipts',{
-      receiptlist: receiptlist
+      receiptlist: receiptlist,
+      sum_price: sum_price
       });
 });
 
@@ -69,11 +85,8 @@ var receiptlist = [];
 
 app.post('/submit',function(req,res){
 
-
-  var date1 = new Date(req.body.pickyDate); 
-  var date_ =new Date(Date.parse(date1));
-  var date = dateFormat(date_, "yyyy-mm-dd" );
-
+var date = moment(req.body.pickyDate,('DD/MM/YYYY')).format('YYYY-MM-DD');
+  //console.log(date);
 
   var price = req.body.price;
   var type = req.body.type;
@@ -82,11 +95,11 @@ app.post('/submit',function(req,res){
    var sql = "insert into shopdb.receipts (date,price,type,payment_type) Values ('"+  date+ "', '" + price + "', '" + type + "', '" + payment_type + "')";
 
    
-   console.log(type);
-   console.log(sql);
-    // connection.query(sql, function (err, result, fields) {
-    //   if (err) throw err;
-    //     });     
+   //console.log(type);
+   //console.log(sql);
+    connection.query(sql, function (err, result, fields) {
+      if (err) throw err;
+        });     
 
 
   res.render('displaySave',{
