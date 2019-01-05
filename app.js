@@ -4,10 +4,14 @@ var express = require("express");
 var app     = express();
 var path    = require("path");
 var bodyParser = require('body-parser');
+var dateFormat = require('dateFormat');
 app.use('/img',express.static(path.join(__dirname, 'images')));
 app.use('/js',express.static(path.join(__dirname, 'js')));
 app.use('/css',express.static(path.join(__dirname, 'css')));
 app.use(bodyParser.json());
+app.set('views', path.join(__dirname,'views'));
+app.set('view engine' , 'pug');
+
 
 
 var connection = mysql.createConnection({
@@ -37,47 +41,56 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.get('/dailyReceipts',function(req,res){
-var sql = "select type from shopdb.receipts";
-connection.connect(function(err) {
-  if (err) throw err;
+var sql = "select date,type,price from shopdb.receipts";
+var receiptlist = [];
   connection.query(sql, function (err, rows, fields) {
     if (err) throw err;
-    str='';
     for(i=0;i<rows.length;i++)
-    str = str + rows[i].type +'\n';
-    res.write(str);
-     res.end( str);
-     
+    {
+    var receipt = {
+      'date':rows[i].date,
+      'type':rows[i].type,
+      'price':rows[i].price
+    }
+    console.log(receipt);
+    receiptlist.push(receipt);
+  }
 
+    // Add object into array
+   
+
+    res.render('displayReceipts',{
+      receiptlist: receiptlist
       });
-      connection.end(); 
-
-      //res.write(rows);   
 });
+
+
 });
 
 app.post('/submit',function(req,res){
-   var type = req.body.payment_type;
-   var name = req.body.type;
-   var sql = "insert into shopdb.receipts (receiptid,type,sellerName) Values ('1001', '"+ type  + "', '" + name + "',)";
+
+
+  var date1 = new Date(req.body.pickyDate); 
+  var date_ =new Date(Date.parse(date1));
+  var date = dateFormat(date_, "yyyy-mm-dd" );
+
+
+  var price = req.body.price;
+  var type = req.body.type;
+  var payment_type = req.body.payment_type;
+
+   var sql = "insert into shopdb.receipts (date,price,type,payment_type) Values ('"+  date+ "', '" + price + "', '" + type + "', '" + payment_type + "')";
+
+   
    console.log(type);
    console.log(sql);
-  connection.connect(function(err) {
-    if (err) throw err;
-    connection.query(sql, function (err, result, fields) {
-      if (err) throw err;
-     console.log(result);
-        });     
-  });
-  connection.end(); 
+    // connection.query(sql, function (err, result, fields) {
+    //   if (err) throw err;
+    //     });     
 
-  res.write('<html lang="ar">');
-  res.write('<body>');
-  res.write('<h1>Data Saved!</h1>');
-  res.write(req.body.date);
-  res.write('</body>');
-  res.write('</html>');
-  res.end();
+
+  res.render('displaySave',{
+    });
 
 });
 

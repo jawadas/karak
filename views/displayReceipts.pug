@@ -1,0 +1,26 @@
+doctype html
+html(lang='ar') 
+ head
+  title= 'Receipts List'
+  link(rel='stylesheet', href='css/bootstrap.css')
+ body
+  h1 فواتير اليوم
+  br
+  br
+table.table.table-bordered
+  thead
+    tr
+      th(width= '10%')  التاريخ
+      th(width= '20%') اسم الفاتورة
+      th(width= '30%') السعر
+  tbody
+   for receipt in receiptlist
+    tr
+    td #{receipt.date}
+    td #{receipt.type}
+    td #{receipt.price}
+
+
+
+
+

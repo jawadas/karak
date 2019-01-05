@@ -32,9 +32,25 @@
     <!-- Custom styles for this template -->
     <link href="css/theme.css" rel="stylesheet">
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+    <!--date picker-->
+    <link rel="stylesheet" type="text/css" href="css/datepicker.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#pickyDate').datepicker({
+                format: "dd/mm/yyyy",  
+                todayHighlight:'TRUE',
+                autoclose: true
+            }).on('changeDate', function (ev) {
+       $(this).datepicker('hide');
+       });
+        });
+    </script>
+
+
+
+    <!-- end of date picker-->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -47,7 +63,6 @@
         
         <form class="form-horizontal"  method="post" action="/submit">
                 <fieldset>
-                
                 <!-- Form Name -->
                 <legend>
                         <h1>اضافة فاتورة جديدة</h1> <br/>
@@ -56,10 +71,16 @@
                 <!-- Text input-->
                 <div class="form-group">
                   <label class="col-md-1 control-label" for="textinput">تاريخ الفاتورة</label>  
-                  <div class="col-md-2">
-                  <input id="textinput" name="date" type="text" class="form-control input-md" required="">
-                  </div>
+                  <!-- example-->
+
+                    <div class="col-md-2">
+                        <input  type="text" class="form-control input-md" name="pickyDate" id="pickyDate" >
+
+                    </div>
+
                 </div>
+
+
                 
                 <!-- Select Basic -->
                 <div class="form-group">
@@ -86,22 +107,22 @@
                 <!-- Multiple Radios -->
                 <div class="form-group">
                   <label class="col-md-1 control-label" for="payment_type">طريقة الدفع</label>
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                   <div class="radio">
                     <label for="radios-0">
-                      <input type="radio" name="payment_type" id="radios-0" value="cash" >
+                      <input type="radio" name="payment_type" id="radios-0" value="كاش" >
                       كاش من المحل
                     </label>
                     </div><br/>
                   <div class="radio">
                     <label for="radios-1">
-                      <input type="radio" name="payment_type" id="radios-1" value="owner">
+                      <input type="radio" name="payment_type" id="radios-1" value="علي/حسين">
                       علي/حسين
                     </label>
                     </div><br/>
                   <div class="radio">
                     <label for="radios-2">
-                      <input type="radio" name="payment_type" id="radios-2" value="credit">
+                      <input type="radio" name="payment_type" id="radios-2" value="اجل">
                       اجل
                     </label>
                     </div>
@@ -113,7 +134,7 @@
                 <div class="form-group">
                   <label class="col-md-1 control-label" for="filebutton">  صورة الفاتورة</label>
                   <div class="col-md-2">
-                    <input id="filebutton" name="attachment" class="input-file" type="file">
+                    <input id="filebutton" name="myImage" class="input-file" type="file">
                   </div>
                 </div>
               </br>
