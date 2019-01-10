@@ -21,6 +21,7 @@ var connection = mysql.createConnection({
     password:'3li#CODIT',
     database:'shopdb',
     port: '3306',
+    multipleStatements: true
 
  });
 
@@ -32,9 +33,11 @@ app.get('/',function(req,res){
 app.get('/AddReceipt.html',function(req,res){
   res.sendFile(path.join(__dirname+'/AddReceipt.html'));
   //__dirname : It will resolve to your project folder.
-    
+});
 
-
+app.get('/EndPeriod',function(req,res){
+  res.sendFile(path.join(__dirname+'/EndPeriod.html'));
+  //__dirname : It will resolve to your project folder.
 });
 
 app.use(bodyParser.urlencoded({
@@ -42,13 +45,22 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.get('/dailyReceipts',function(req,res){
-var sql = "select date,type,price from shopdb.receipts";
-var receiptlist = [];
+  var today = new Date();
+ 
+  var date = moment(today,('DD/MM/YYYY')).format('YYYY-MM-DD');
+  console.log(date);
+var sql = "select date,type,price,payment_type from shopdb.receipts where date =?"
+var sql2= "select sales_total,sales_system from shopdb.sales where sales_date ='" +date +"'";
 
-  connection.query(sql, function (err, rows, fields) {
+var receiptlist = [];
+var sum_price =0;
+var total_system = 0;
+var total_cash = 0;
+
+  connection.query(sql, date, function (err, rows, fields) {
    
     if (err) throw err;
-    var sum_price = 0;
+    
     for(i=0;i<rows.length;i++)
     {
       var javaDate = [];
@@ -56,30 +68,38 @@ var receiptlist = [];
       javaDate[i] = new Date(rows[i].date);
       new_date[i] = (javaDate[i].getFullYear() + '/' + (javaDate[i].getMonth() + 1) + '/' +javaDate[i].getDate() );
       sum_price = sum_price + rows[i].price
+
+
     var receipt = {
       'date':new_date[i],
       'type':rows[i].type,
-      'price':rows[i].price
+      'price':rows[i].price,
+      'payment_type':rows[i].payment_type
     }
-    console.log(receipt);
-    receiptlist.push(receipt);
-    
-   
-    ;
-   
-
+  // console.log(receipt);
+    receiptlist.push(receipt);      
   }
- 
+  connection.query(sql2, function (err, result, fields) {
+    if (err) throw err;
+    for(i=0;i<result.length;i++)
+    {
+     total_cash +=result[i].sales_total;
+     total_system +=result[i].sales_system;
+    }
+      //console.log(total);
+      // ----Add object into array----
+  res.render('displayReceipts',{
+  receiptlist: receiptlist,
+  sum_price: sum_price,
+  total_sales: total_system,
+  total_cash: total_cash
+  });
+//--------
+      });  
 
 
-    // Add object into array
-   
-    res.render('displayReceipts',{
-      receiptlist: receiptlist,
-      sum_price: sum_price
-      });
+
 });
-
 
 });
 
@@ -92,12 +112,12 @@ var date = moment(req.body.pickyDate,('DD/MM/YYYY')).format('YYYY-MM-DD');
   var type = req.body.type;
   var payment_type = req.body.payment_type;
 
-   var sql = "insert into shopdb.receipts (date,price,type,payment_type) Values ('"+  date+ "', '" + price + "', '" + type + "', '" + payment_type + "')";
+   var sql = "insert into shopdb.receipts (date,price,type,payment_type) Values (?,?,?,?)";
 
    
    //console.log(type);
    //console.log(sql);
-    connection.query(sql, function (err, result, fields) {
+    connection.query(sql, [date,price,type,payment_type], function (err, result, fields) {
       if (err) throw err;
         });     
 
@@ -106,6 +126,30 @@ var date = moment(req.body.pickyDate,('DD/MM/YYYY')).format('YYYY-MM-DD');
     });
 
 });
+
+app.post('/SubmitEndPeriod',function(req,res){
+
+    var sales_date = moment(req.body.pickyDate,('DD/MM/YYYY')).format('YYYY-MM-DD');
+    //console.log(date);
+    var sales_period = req.body.period;
+    var sales_system = req.body.sales_system;
+    var total_sales = req.body.total_sales;
+  
+  
+     var sql2 = "insert into shopdb.sales (sales_date,sales_period,sales_system,sales_total) Values (?,?,?,?)";
+  
+     
+     //console.log(type);
+     console.log(sql2);
+      connection.query(sql2, [sales_date,sales_period,sales_system,total_sales], function (err, result, fields) {
+        if (err) throw err;
+          });     
+  
+  
+    res.render('displaySave',{
+      });
+  
+  });
 
 app.listen(3000);
 

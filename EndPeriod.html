@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+
+        <style>
+                div.a {
+                  text-indent: 150px;
+                 }
+                 div.b {
+                  text-indent: 40px;
+                 }
+                 div.c {
+                  text-indent: 90px;
+                 }
+                </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>اضافة فاتورة</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/theme.css" rel="stylesheet">
+
+    <!--date picker-->
+    <link rel="stylesheet" type="text/css" href="css/datepicker.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#pickyDate').datepicker({
+                format: "dd/mm/yyyy",  
+                todayHighlight:'TRUE',
+                autoclose: true
+            }).on('changeDate', function (ev) {
+       $(this).datepicker('hide');
+       });
+        });
+    </script>
+  </head>
+
+  <body role="document">
+    <div class="b">
+        <form class="form-horizontal"  method="post" action="SubmitEndPeriod">
+                <fieldset>
+                <!-- Form Name -->
+                <legend>
+                        <h1>  انهاء حسابات فترة</h1> <br/>
+                </legend>
+                
+                <!-- Text input-->
+           
+                <div class="form-group">
+                  <label class="col-md-1 control-label" for="textinput">تاريخ اليوم</label>  
+                  <!-- example-->
+                 
+                    <div class="col-md-2">
+                        <input  type="text" class="form-control input-md" name="pickyDate" id="pickyDate" >
+                    </div>
+                    </div>
+
+           
+
+
+                
+                <!-- Select Basic -->
+                <div class="form-group">
+                  <label class="col-md-1 control-label" for="selectbasic">وقت الفترة </label>
+                  <div class="col-md-2">
+                    <select id="selectbasic" name="period" class="form-control">
+                      <option value="صباح">صباح</option>
+                      <option value="مساء">مساء</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <!-- Text input-->
+                <div class="form-group">
+
+                  <label class="col-md-1 control-label" for="textinput">قيمة المبيعات في السيستم</label>  
+
+                  <div class="col-md-2">
+                    <input id="textinput" name="sales_system" type="text"  class="form-control input-md" required="">
+                  </div>
+                </div> 
+                
+                <div class="form-group">
+                    <label class="col-md-1 control-label" for="textinput">المبلغ النهائي</label>  
+                    <div class="col-md-2">
+                    <input id="textinput" name="total_sales" type="text"  class="form-control input-md" required="">
+                    </div>
+                  </div><br/>
+                
+                <!-- File Button --> 
+    
+                <div class="form-group">
+                  <label class="col-md-1 control-label" for="filebutton">  صورة الكاشير اوت</label>
+                  <div class="col-md-2">
+                    <input id="filebutton" name="myImage" class="input-file" type="file">
+                  </div>
+                </div>
+              </br>       
+            </br>
+                    <div class="a">
+                    <button type="submit" class="btn btn-lg btn-primary" id="myButton" >انهاء الفترة</button>
+                </fieldset>
+            
+
+            </div>
+    </div>
+  </form>
+  </body>
+</html>

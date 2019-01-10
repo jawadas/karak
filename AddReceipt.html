@@ -5,16 +5,14 @@
         <style>
                 div.a {
                   text-indent: 150px;
-                }
-                
-                div.b {
-                  text-indent: -2em;
-                }
-                
-                div.c {
-                  text-indent: 30%;
-                }
-                </style>
+                 }
+                 div.b {
+                  text-indent: 40px;
+                 }
+                 div.c {
+                  text-indent: 80;
+                 }
+         </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,17 +34,7 @@
     <link rel="stylesheet" type="text/css" href="css/datepicker.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="js/bootstrap-datepicker.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#pickyDate').datepicker({
-                format: "dd/mm/yyyy",  
-                todayHighlight:'TRUE',
-                autoclose: true
-            }).on('changeDate', function (ev) {
-       $(this).datepicker('hide');
-       });
-        });
-    </script>
+    <script src="js/date_pick.js"></script> 
 
 
 
@@ -61,6 +49,9 @@
 
   <body role="document">
         
+    <div class="b">
+    
+
         <form class="form-horizontal"  method="post" action="/submit">
                 <fieldset>
                 <!-- Form Name -->
@@ -70,11 +61,11 @@
                 
                 <!-- Text input-->
                 <div class="form-group">
-                  <label class="col-md-1 control-label" for="textinput">تاريخ الفاتورة</label>  
+                  <label class="col-md-3 control-label" for="textinput">تاريخ الفاتورة</label>  
                   <!-- example-->
 
                     <div class="col-md-2">
-                        <input  type="text" class="form-control input-md" name="pickyDate" id="pickyDate" >
+                        <input  type="text" class="form-control input-md" name="pickyDate" id="pickyDate" required>
 
                     </div>
 
@@ -84,9 +75,10 @@
                 
                 <!-- Select Basic -->
                 <div class="form-group">
-                  <label class="col-md-1 control-label" for="selectbasic">نوع الفاتورة</label>
+                  <label class="col-md-3 control-label" for="selectbasic">نوع الفاتورة</label>
                   <div class="col-md-2">
-                    <select id="selectbasic" name="type" class="form-control">
+                    <select id="selectbasic" name="type" class="form-control" required>
+                        <option disabled selected value> -- اختر اسم المفوتر -- </option>
                       <option value="لحوم">لحوم</option>
                       <option value="خضار">خضار</option>
                       <option value="ابوزيد">ابوزيد</option>
@@ -98,44 +90,44 @@
                 
                 <!-- Text input-->
                 <div class="form-group">
-                  <label class="col-md-1 control-label" for="textinput">سعر الفاتورة</label>  
+                  <label class="col-md-3 control-label" for="textinput">سعر الفاتورة</label>  
                   <div class="col-md-2">
-                  <input id="textinput" name="price" type="text"  class="form-control input-md" required="">
+                  <input id="textinput" name="price" type="text"  class="form-control input-md" required>
                   </div>
                 </div> <br/>
                 
-                <!-- Multiple Radios -->
-                <div class="form-group">
-                  <label class="col-md-1 control-label" for="payment_type">طريقة الدفع</label>
-                  <div class="col-md-3">
-                  <div class="radio">
-                    <label for="radios-0">
-                      <input type="radio" name="payment_type" id="radios-0" value="كاش" >
-                      كاش من المحل
-                    </label>
-                    </div><br/>
-                  <div class="radio">
-                    <label for="radios-1">
-                      <input type="radio" name="payment_type" id="radios-1" value="علي/حسين">
-                      علي/حسين
-                    </label>
-                    </div><br/>
-                  <div class="radio">
-                    <label for="radios-2">
-                      <input type="radio" name="payment_type" id="radios-2" value="اجل">
-                      اجل
-                    </label>
-                    </div>
-                  </div>
+          <!-- Multiple Radios -->
+          <div class="form-group">
+              <label class="col-md-4 control-label" for="payment_type">طريقة الدفع</label>
+              <div class="col-md-3">
+              <div class="radio">
+                <label for="radios-0">
+                  <input type="radio" name="payment_type" id="radios-0" value="كاش" >
+                  كاش من المحل
+                </label>
                 </div><br/>
+              <div class="radio">
+                <label for="radios-1">
+                  <input type="radio" name="payment_type" id="radios-1" value="علي/حسين">
+                  علي/حسين
+                </label>
+                </div><br/>
+              <div class="radio">
+                <label for="radios-2">
+                  <input type="radio" name="payment_type" id="radios-2" value="اجل">
+                  اجل
+                </label>
+                </div>
+              </div>
+            </div><br/>
                 
                 <!-- File Button --> 
-    
+                
                 <div class="form-group">
-                  <label class="col-md-1 control-label" for="filebutton">  صورة الفاتورة</label>
+                  <label class="col-md-3 control-label" for="filebutton">  صورة الفاتورة</label>
                   <div class="col-md-2">
                     <input id="filebutton" name="myImage" class="input-file" type="file">
-                  </div>
+                    <div class="col-md-2">
                 </div>
               </br>
        
@@ -144,10 +136,11 @@
                     <button type="submit" class="btn btn-lg btn-primary" id="myButton" >اضافة الفاتورة</button>
                 </fieldset>
             
+              </div>
 
 
     </div>
+
   </form>
   </body>
 </html>
-    
